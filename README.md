@@ -25,9 +25,7 @@ cd ~                # Volta diretamente para a pasta home
 ```
 - Executar um Programa Local
 ```shell
-./nome_do_programa  # Executa um programa da pasta atual
-```
-- Limpar a Tela do Terminal
+./nome_do_programa  # Executa u
 ```shell
 clear
 ```
