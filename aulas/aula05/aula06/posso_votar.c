@@ -11,7 +11,7 @@ int main()
     {
         if (idade >= 18 && idade <= 70)
         {
-            printf("Voce eh obrigado a vota!\n");
+            printf("Voce eh obrigado a votar!\n");
         }
         else
         {
