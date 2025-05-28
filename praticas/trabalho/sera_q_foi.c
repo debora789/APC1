@@ -8,14 +8,18 @@
 #define YELLOW "\033[1;33m"
 #define RESET "\033[0m"
 
+
+typedef struct {
+    char nome[50];
+    int quantidade;
+    float preco;
+    float total;
+} Item;
+
 int main() {
-   setlocale(LC_ALL, "Portuguese");
+    setlocale(LC_ALL, "Portuguese");
 
-    char itens[MAX_ITENS][50];
-    int quantidades[MAX_ITENS];
-    float precos[MAX_ITENS];
-    float totais[MAX_ITENS];
-
+    Item itens[MAX_ITENS];  // Array de structs
     int contador = 0;
     int opcao;
 
@@ -23,9 +27,9 @@ int main() {
         // Menu principal
         printf(GREEN "\n============= MENU NOTA FISCAL =============\n" RESET);
         printf(YELLOW "1 - Adicionar item\n" RESET);
-        printf(YELLOW "2 - Gerar lista (nota fiscal)\n" RESET);
+        printf(YELLOW "2 - Gerar nota fiscal\n" RESET);
         printf(YELLOW "3 - Sair\n" RESET);
-        printf("Escolha uma op��o: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
         getchar(); // Limpa o enter do buffer
 
@@ -37,16 +41,16 @@ int main() {
                 }
 
                 printf("Nome do item: ");
-                fgets(itens[contador], 50, stdin);
-                itens[contador][strcspn(itens[contador], "\n")] = 0; // Remove o \n
+                fgets(itens[contador].nome, 50, stdin);
+                itens[contador].nome[strcspn(itens[contador].nome, "\n")] = 0;
 
                 printf("Quantidade: ");
-                scanf("%d", &quantidades[contador]);
+                scanf("%d", &itens[contador].quantidade);
 
-                printf("Pre�o unit�rio: R$");
-                scanf("%f", &precos[contador]);
+                printf("Preco unitario: R$");
+                scanf("%f", &itens[contador].preco);
 
-                totais[contador] = quantidades[contador] * precos[contador];
+                itens[contador].total = itens[contador].quantidade * itens[contador].preco;
                 contador++;
 
                 printf(GREEN "Item adicionado com sucesso!\n" RESET);
@@ -58,32 +62,31 @@ int main() {
                     break;
                 }
 
-                printf(GREEN "\n==============================================" RESET "\n");
-                printf(RED   "=============== NOTA FISCAL ==================" RESET "\n");
-                printf(GREEN "==============================================" RESET "\n");
-                printf(YELLOW "%-4s %-25s %-10s %-10s %-10s\n" RESET, "Nº", "Item", "Qtd", "Preço", "Total");
+                printf(GREEN "\n===============================================================" RESET "\n");
+                printf(RED   "========================= NOTA FISCAL =========================" RESET "\n");
+                printf(GREEN "===============================================================" RESET "\n");
+                printf(YELLOW "%-4s %-25s %-10s %-10s %-10s\n" RESET, "Num.",  "Item", "Qtd", "Preco", "Total");
 
                 float total_geral = 0.0;
                 for (int i = 0; i < contador; i++) {
                     printf("%-4d %-25s %-10d R$%-8.2f R$%-8.2f\n",
-                           i + 1, itens[i], quantidades[i], precos[i], totais[i]);
-                    total_geral += totais[i];
+                           i + 1, itens[i].nome, itens[i].quantidade, itens[i].preco, itens[i].total);
+                    total_geral += itens[i].total;
                 }
 
                 printf(GREEN "\nTotal Geral: R$%.2f\n" RESET, total_geral);
                 break;
 
             case 3:
-                printf(GREEN "\nEncerrando o programa. Até logo!\n" RESET);
+                printf(GREEN "\nEncerrando o programa!\n" RESET);
                 break;
 
             default:
-                printf(RED "Opção inválida! Tente novamente.\n" RESET);
+                printf(RED "Opcao invalida! Tente novamente.\n" RESET);
                 break;
         }
 
     } while (opcao != 3);
-
 
     return 0;
 }
